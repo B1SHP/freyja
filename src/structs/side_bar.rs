@@ -16,7 +16,7 @@ pub struct SideBarComponent{
 
 impl Component for SideBarComponent {
 
-    type Message = ();
+    type Message = SideBarMessage;
 
     type Properties = SideBarProps;
 
@@ -27,14 +27,28 @@ impl Component for SideBarComponent {
     }
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        false
+
+        match msg {
+            SideBarMessage::MouseClick => {
+                self.is_expanded = !self.is_expanded;
+                true
+            }
+            SideBarMessage::MouseLeave => {
+                self.is_expanded = false;
+                true
+            }
+        }
+        
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-           html!{
+
+        html!{
             <>
-                <div class="absolute duration-300 bg-cyan-950 h-screen -mt-6 -ml-6 p-5 pt-8">
-                    <SideBarButtonComponent is_over=false/>
+                <div onclick={ctx.link().callback(|_| SideBarMessage::MouseClick)} 
+                     onmouseleave={ctx.link().callback(|_| SideBarMessage::MouseLeave)}
+                    class={ "duration-300 bg-cyan-950 h-screen pl-8 -mt-3.5 -ml-8 pt-5 ".to_string() + (if self.is_expanded { "w-72" } else { "w-24" })}>
+                    <SideBarButtonComponent is_over=false />
                 </div>
             </>
         }

@@ -66,7 +66,7 @@ impl Component for SideBarButtonComponent {
 
         html!{
             <>
-                <div class="flex justify-center" 
+                <div class="absolute flex justify-center" 
                     onmouseleave={_ctx.link().callback(|_| SideBarButtonMsg::MouseLeave)} 
                     onmouseenter={_ctx.link().callback(|_| SideBarButtonMsg::MouseEnter)}
                     onclick={_ctx.link().callback(|_| SideBarButtonMsg::MouseClick)}>
